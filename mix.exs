@@ -29,7 +29,7 @@ defmodule Neurio.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:httpoison, "~> 0.11.1", override: true},
+      {:httpoison, "~> 0.8.3"},
       {:poison, "~> 3.1"},
     ]
   end
