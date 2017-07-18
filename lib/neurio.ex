@@ -20,17 +20,20 @@ defmodule Neurio do
   end
 
   def process_response_body(body) do
-    parsed = body |> Poison.decode!
-    parsed
-    |> Map.get("channels", [])
-    |> Enum.find(%{}, fn ch ->
-        case ch |> Map.get("type") do
-          "CONSUMPTION" -> true
-          _ -> false
-        end
-      end)
-    |> parse_data
-    |> map_state(parsed)
+    case body |> Poison.decode do
+      {:ok, parsed} ->
+        parsed
+        |> Map.get("channels", [])
+        |> Enum.find(%{}, fn ch ->
+            case ch |> Map.get("type") do
+              "CONSUMPTION" -> true
+              _ -> false
+            end
+          end)
+        |> parse_data
+        |> map_state(parsed)
+      {:error, error} -> nil
+    end
   end
 
   defp parse_data(consumption) do
